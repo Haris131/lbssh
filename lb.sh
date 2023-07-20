@@ -62,8 +62,8 @@ done
 function usage() {
   cat <<EOF
 Usage:
-  -r  Run ${SERVICE_NAME} service
-  -s  Stop ${SERVICE_NAME} service
+  -r  Run service
+  -s  Stop service
 EOF
 }
 

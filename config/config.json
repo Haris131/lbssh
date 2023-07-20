@@ -1,33 +1,19 @@
 {
-    "load_balance": {
-        "tun2socks": {
-            "dev": "tun1",
-            "mtu": 1420,
-            "address": "10.0.0.2",
-            "gateway": "10.0.0.1",
-            "netmask": "255.255.255.0",
-            "socks": {
-                "ip": "127.0.0.1",
-                "port": 5555
-            },
-            "udpgw": {
-                "ip": "127.0.0.1",
-                "port": 7300
-            }
-        }
-    },
-    "SSH_1": {
-        "config": "/root/lbssh/config/cfg1.json",
-        "socks": {
-            "ip": "127.0.0.1",
-            "port": 1080
-        }
-    },
-    "SSH_2": {
-        "config": "/root/lbssh/config/cfg2.json",
-        "socks": {
-            "ip": "127.0.0.1",
-            "port": 1081
-        }
+  "load_balance": {
+    "tun2socks": {
+      "dev": "tun1",
+      "mtu": 1420,
+      "address": "10.0.0.2",
+      "gateway": "10.0.0.1",
+      "netmask": "255.255.255.0",
+      "socks": {
+        "ip": "127.0.0.1",
+        "port": 5555
+      },
+      "udpgw": {
+        "ip": "127.0.0.1",
+        "port": 7300
+      }
     }
+  }
 }
