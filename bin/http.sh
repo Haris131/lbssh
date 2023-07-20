@@ -21,7 +21,7 @@ else
   echo "${0} -s -c config.json" 1>&2
   exit 1
 fi
-LISTEN_PORT="$(grep 'port":' ${SSH_CONFIG} | awk '{print $2}' | sed 's/,//g; s/"//g' | sed -n '3p')"
+LISTEN_PORT="$(grep 'port":' ${SSH_CONFIG} | awk '{print $2}' | sed 's/,//g; s/"//g' | sed -n '2p')"
 
 function run() {
   echo -e "Starting ${SERVICE_NAME} service ..."
