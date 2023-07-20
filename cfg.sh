@@ -19,7 +19,6 @@ ssh_ip=$(ping $ssh_host -w1 -c1 | awk "NR==1" | awk -F '(' '{print $2}' | awk -F
 read -p "SSH Port: " ssh_port
 read -p "SSH Username: " ssh_username
 read -p "SSH Password: " ssh_password
-read -p "SSH UDPGW: " udpgw
 read -p "Payload: " payload
 read -p "Proxy: " proxy
 read -p "Port: " port
@@ -33,10 +32,6 @@ echo '{
     "port": '$ssh_port',
     "username": "'$ssh_username'",
     "password": "'$ssh_password'",
-    "udpgw": {
-        "ip": "127.0.0.1",
-        "port": '$udpgw'
-    },
     "http": {
         "buffer": 32768,
         "ip": "127.0.0.1",
