@@ -55,7 +55,6 @@ for CFG in ${CONFIG_LB}; do
 done
 
 CFG_LB=$(echo ${CFG_ARR[@]} | tr ' ' ',')
-echo $CFG_LB
 sed -i "s|5555=.*|5555=${CFG_LB}|g" ${LBSSH_DIR}/config/config.cfg
 
 echo "Entri $ssh_entry telah ditambahkan ke dalam file ${CONFIG}."
