@@ -95,7 +95,7 @@ echo -e "Tun device initialized!"
 for CFG in ${CONFIG_LB}; do
   CFG_FILE="$(cat ${CONFIG} | jq .$CFG.config | awk '{print $1}' | sed 's/://g; s/"//g')"
   SERVER_IP="$(grep 'ip":' ${CFG_FILE} | awk '{print $2}' | sed 's/,//g; s/"//g' | sed -n '1p')"
-  CDN_IP="$(grep 'ip":' ${CFG_FILE} | awk '{print $2}' | sed 's/,//g; s/"//g' | sed -n '4p')"
+  CDN_IP="$(grep 'ip":' ${CFG_FILE} | awk '{print $2}' | sed 's/,//g; s/"//g' | sed -n '3p')"
   ip route add ${SERVER_IP} via "${GATEWAY}" metric 4 > /dev/null 2>&1
   ip route add ${CDN_IP} via "${GATEWAY}" metric 4 > /dev/null 2>&1
 done
@@ -121,7 +121,7 @@ echo -e "Tun2socks stopped!"
 for CFG in ${CONFIG_LB}; do
   CFG_FILE="$(cat ${CONFIG} | jq .$CFG.config | awk '{print $1}' | sed 's/://g; s/"//g')"
   SERVER_IP="$(grep 'ip":' ${CFG_FILE} | awk '{print $2}' | sed 's/,//g; s/"//g' | sed -n '1p')"
-  CDN_IP="$(grep 'ip":' ${CFG_FILE} | awk '{print $2}' | sed 's/,//g; s/"//g' | sed -n '4p')"
+  CDN_IP="$(grep 'ip":' ${CFG_FILE} | awk '{print $2}' | sed 's/,//g; s/"//g' | sed -n '3p')"
   ip route del "${SERVER_IP}" > /dev/null 2>&1
   ip route del "${CDN_IP}" > /dev/null 2>&1
 done
