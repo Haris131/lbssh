@@ -43,14 +43,14 @@ echo -e "###### LOAD BALANCE ######"
 screen -dmS load-balance python3 -u ${LBSSH_DIR}/bin/loadbalancer.py ${LBSSH_DIR}/config/config.cfg
 sleep 2
 echo -e "###### TUN2SOCKS ######"
-${LBSSH_DIR}/bin/tun2socks.sh -r tun
+${LBSSH_DIR}/bin/tun2socks.sh -r
 echo -e "###### DNS Resolver ######"
 ${LBSSH_DIR}/bin/dns.sh -r
 }
 
 function stop_lb {
 ${LBSSH_DIR}/bin/dns.sh -s
-${LBSSH_DIR}/bin/tun2socks.sh -s tun
+${LBSSH_DIR}/bin/tun2socks.sh -s
 kill $(screen -list | grep load-balance | awk -F '[.]' {'print $1'})
 ${LBSSH_DIR}/bin/recon.sh -s
 for CFG in ${CONFIG_LB}; do

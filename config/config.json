@@ -1,6 +1,7 @@
 {
   "load_balance": {
     "tun2socks": {
+      "legacy": true,
       "dev": "tun1",
       "mtu": 1420,
       "address": "10.0.0.2",

@@ -12,6 +12,7 @@ fi
 LBSSH_DIR="/root/lbssh"
 CONFIG="${LBSSH_DIR}/config/config.json"
 CONFIG_LB="$(grep SSH ${CONFIG} | awk '{print $1}' | sed 's/://g; s/"//g')"
+TUN2SOCKS_MODE="$(grep 'legacy":' ${CONFIG} | awk '{print $2}' | sed 's/,//g; s/"//g')"
 TUN_DEV="$(grep 'dev":' ${CONFIG} | awk '{print $2}' | sed 's/,//g; s/"//g')"
 TUN_ADDRESS="$(grep 'address":' ${CONFIG} | awk '{print $2}' | sed 's/,//g; s/"//g')"
 TUN_NETMASK="$(grep 'netmask":' ${CONFIG} | awk '{print $2}' | sed 's/,//g; s/"//g')"
@@ -47,14 +48,14 @@ redsocks {
 	type = socks5;
 }
 redudp {
-    local_ip = ${UDPGW_IP}; 
-    local_port = ${UDPGW_PORT};
-    ip = ${TUN_GATEWAY};
+	local_ip = ${UDPGW_IP}; 
+	local_port = ${UDPGW_PORT};
+	ip = ${TUN_GATEWAY};
 	port = ${SOCKS_PORT};
-    dest_ip = 8.8.8.8; 
-    dest_port = 53; 
-    udp_timeout = 30;
-    udp_timeout_stream = 180;
+	dest_ip = 8.8.8.8; 
+	dest_port = 53; 
+	udp_timeout = 30;
+	udp_timeout_stream = 180;
 }
 dnstc {
 	local_ip = 127.0.0.1;
@@ -140,14 +141,14 @@ EOF
 
 case "${1}" in
   -r)
-    if [[ "${2}" == "tun" ]]; then
+    if [[ $TUN2SOCKS_MODE == "true" ]]; then
       start_tun
     else
       start_redsocks
     fi
     ;;
   -s)
-    if [[ "${2}" == "tun" ]]; then
+    if [[ $TUN2SOCKS_MODE == "true" ]]; then
       stop_tun
     else
       stop_redsocks

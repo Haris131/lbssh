@@ -7,7 +7,7 @@ CONFIG="${LBSSH_DIR}/config/config.json"
 # Menghitung berapa banyak entri SSH_ sudah ada dalam file JSON
 ssh_count=$(jq 'keys | length' "${CONFIG}")
 count=$(($ssh_count - 1))
-cfg_save="/root/lbssh/config/cfg${ssh_count}.json"
+cfg_save="${LBSSH_DIR}/config/cfg${ssh_count}.json"
 
 function add_cfg {
 # Menambahkan entri baru untuk SSH_X (gantilah X dengan angka yang diinginkan)
@@ -20,6 +20,7 @@ read -p "SSH Port: " ssh_port
 read -p "SSH Username: " ssh_username
 read -p "SSH Password: " ssh_password
 read -p "Payload: " payload
+[ -z $payload ] && payload="GET / HTTP/1.1[crlf]Host: [host][crlf]Upgrade: websocket[crlf][crlf]"
 read -p "Proxy: " proxy
 read -p "Port: " port
 
@@ -67,13 +68,28 @@ if [ $count == "0" ]; then
 fi
 read -p "hapus ssh nomor: " dssh
 [ -z $dssh ] && dssh=$count
-rm -rf /root/lbssh/config/cfg${dssh}.json
+rm -rf ${LBSSH_DIR}/config/cfg${dssh}.json
+rm -rf ${LBSSH_DIR}/log/cfg${dssh}
 SOCKS_IP="$(cat ${CONFIG} | jq .SSH_$dssh.socks.ip | awk '{print $1}' | sed 's/://g; s/"//g')"
 SOCKS_PORT="$(cat ${CONFIG} | jq .SSH_$dssh.socks.port | awk '{print $1}' | sed 's/://g; s/"//g')"
 SOCKS="${SOCKS_IP}:${SOCKS_PORT}"
 sed -i "s|,${SOCKS}||g" ${LBSSH_DIR}/config/config.cfg
 jq 'del(.SSH_'$dssh')' ${CONFIG} > temp.json && mv temp.json "${CONFIG}"
 echo "Entri SSH_$dssh telah dihapus dari file ${CONFIG}."
+}
+
+function badvpn_or_redsocks {
+echo "1. Badvpn-tun2socks"
+echo "2. Redsocks" 
+read -p "Pilih: " badred
+if [[ $badred == "1" ]]; then
+  sed -i 's|legacy": .*|legacy": true,|g' ${CONFIG}
+  bor="badvpn-tun2socks"
+else
+  sed -i 's|legacy": .*|legacy": false,|g' ${CONFIG}
+  bor="redsocks"
+fi
+echo "Koneksi terpilih menggunakan $bor"
 }
 
 case $1 in
@@ -83,8 +99,12 @@ case $1 in
   del)
   del_cfg
   ;;
+  legacy)
+  badvpn_or_redsocks
+  ;;
   *)
   echo "$0 add (to add config)"
   echo "$0 del (to del config)"
+  echo "$0 legacy (to use badvpn or redsocks)"
   ;;
 esac

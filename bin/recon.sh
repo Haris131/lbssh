@@ -44,9 +44,9 @@ while true; do
   fi
   if [ -f $(ip route | grep -v tun | awk '/default/ { print $3 }') ]; then
     if [ -f $(screen -list | grep badvpn-tun2socks | awk -F '[.]' {'print $1'}) ]; then
-      ${LBSSH_DIR}/bin/tun2socks.sh -s tun
+      ${LBSSH_DIR}/bin/tun2socks.sh -s
       sleep 1
-      ${LBSSH_DIR}/bin/tun2socks.sh -r tun
+      ${LBSSH_DIR}/bin/tun2socks.sh -r
     fi
   fi
   sleep 300

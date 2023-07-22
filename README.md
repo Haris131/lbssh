@@ -23,7 +23,7 @@ opkg update && opkg install bash curl screen jq python3 openssh-client sshpass c
 
 ## How to run
 - lb.sh to run or stop service
-- cfg.sh to add or del config
+- cfg.sh to add, del config, legacy to change badvpn or redsocks
 
 ## Credits
 - [Stl](https://github.com/wegare123/stl)
