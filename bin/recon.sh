@@ -42,12 +42,10 @@ while true; do
   if [ -f $(screen -list | grep load-balance | awk -F '[.]' {'print $1'}) ]; then
     screen -dmS load-balance python3 -u ${LBSSH_DIR}/bin/loadbalancer.py ${LBSSH_DIR}/config/config.cfg
   fi
-  if [ -f $(ip route | grep -v tun | awk '/default/ { print $3 }') ]; then
-    if [ -f $(screen -list | grep badvpn-tun2socks | awk -F '[.]' {'print $1'}) ]; then
-      ${LBSSH_DIR}/bin/tun2socks.sh -s
-      sleep 1
-      ${LBSSH_DIR}/bin/tun2socks.sh -r
-    fi
+  if [ -f $(screen -list | grep badvpn-tun2socks | awk -F '[.]' {'print $1'}) ]; then
+    ${LBSSH_DIR}/bin/tun2socks.sh -s
+    sleep 1
+    ${LBSSH_DIR}/bin/tun2socks.sh -r
   fi
   sleep 300
 done
