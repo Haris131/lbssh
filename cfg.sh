@@ -1,6 +1,11 @@
 #!/bin/bash
 clear
 
+if [ "$(id -u)" != "0" ]; then
+  echo "This script must be run as root" 1>&2
+  exit 1
+fi
+
 LBSSH_DIR="/root/lbssh"
 CONFIG="${LBSSH_DIR}/config/config.json"
 
